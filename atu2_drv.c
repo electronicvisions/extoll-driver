@@ -606,7 +606,7 @@
 	cur_base = address & PAGE_MASK;
 
 	//get the mm semaphore
-	down_read(&current->mm->mmap_sem);
+	EKVCL_mmap_read_unlock(current->mm);
 
 
 	vma = find_vma(current->mm, address); 
@@ -615,7 +615,7 @@
 	if(vma && vma->vm_flags & (VM_IO | VM_PFNMAP)){
 	    int offset;
 	    pr_debug("Find mmio maped address to register, with start addr %lx \n", vma->vm_pgoff);       
-	    up_read(&current->mm->mmap_sem);
+	    EKVCL_mmap_read_lock(current->mm);
 	    gat_tables[gat_idx].free_entries_in_1k[gate_idx/1024]-=npages * __atu_pp;
 	    if((cur_base + PAGE_SIZE*npages)>vma->vm_end)
 			return -EINVAL;
@@ -654,7 +654,7 @@
 	    if ((locked > lock_limit) && !capable(CAP_IPC_LOCK)) {
 		ret = -ENOMEM;
 		pr_alert("Out of lockable pages: locked %lx lock_limit %lx\n", locked, lock_limit);
-		up_read(&current->mm->mmap_sem); 
+		EKVCL_mmap_read_lock(current->mm);
 		return ret;
 	      }
 	   pr_debug("current->mm->locked_vm is %lx\n",current->mm->locked_vm);
@@ -675,7 +675,7 @@
 		 put_page(__page_list[(1024*vpid)+i]);
                  
 	      }
-	      up_read(&current->mm->mmap_sem); 
+	      EKVCL_mmap_read_lock(current->mm);
 	      pr_alert("Could not get_user_pages pages. Return value was %d, locked was %ld, lock_limit %ld\n",ret,locked, lock_limit);
 	      ret = -ENOMEM;
 	      return ret;    
@@ -706,7 +706,7 @@
 	#ifdef MEASURE
 	    rdtscll(t2);
 	#endif
-	    up_read(&current->mm->mmap_sem);
+	    EKVCL_mmap_read_lock(current->mm);
 	#ifdef MEASURE
 	    pr_debug("get_user_pages for %ld pages took %lx cycles\n",npages, t2-t1);
 	#endif
@@ -836,7 +836,7 @@
             //gat_tables[gat_idx].free_entries_in_1k[gate_idx/1024]++;
 
             if (lock==1)
-              down_read(&current->mm->mmap_sem);
+              EKVCL_mmap_read_unlock(current->mm);
   
             if (!PageReserved(page))
               SetPageDirty(page);
@@ -845,7 +845,7 @@
             put_page(page);
 
             if (lock==1)
-              up_read(&current->mm->mmap_sem);
+              EKVCL_mmap_read_lock(current->mm);
             pr_debug("after up_read\n");
           }
         }
@@ -881,7 +881,7 @@ static int perform_unregister_pages(int vpid,int start_gat_idx, int start_gate_i
   gate_idx=start_gate_idx;  
   pr_debug("Unregistering %d pages with gat %u and gate idx %u @ %p called.\n", count, gat_idx, gate_idx, &(gat_tables[gat_idx].entries[gate_idx]));
   if (physical==0)
-    down_read(&current->mm->mmap_sem);
+    EKVCL_mmap_read_unlock(current->mm);
   for (i=0;i<count;i++)
     {
       if (physical==0) {
@@ -905,7 +905,7 @@ static int perform_unregister_pages(int vpid,int start_gat_idx, int start_gate_i
                       i,gat_idx, gate_idx );
                 gat_tables[gat_idx].entries[gate_idx].value=0l;
                 if (physical==0)
-                  up_read(&current->mm->mmap_sem);
+                  EKVCL_mmap_read_lock(current->mm);
                 return -EFAULT;
               }
           gat_tables[gat_idx].entries[gate_idx].value=0l;
@@ -941,7 +941,7 @@ static int perform_unregister_pages(int vpid,int start_gat_idx, int start_gate_i
       }
     }
   if (physical==0)
-    up_read(&current->mm->mmap_sem);
+    EKVCL_mmap_read_lock(current->mm);
   
   //FIXME: last flush Flush!
   #ifndef DBG_NO_FLUSH  

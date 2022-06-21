@@ -331,12 +331,12 @@ static long  pmap_ioctl_unlocked(struct file *filp,unsigned int cmd, unsigned lo
 
   // test provided argument buffer for necessary access rights
   if (_IOC_DIR(cmd) & _IOC_READ) {
-    if (!access_ok(VERIFY_WRITE, (void *)arg, _IOC_SIZE(cmd)))
+    if (!EKVCL_access_ok(VERIFY_WRITE, (void *)arg, _IOC_SIZE(cmd)))
       return -EFAULT;
   }
 
   if (_IOC_DIR(cmd) & _IOC_WRITE) {
-    if (!access_ok(VERIFY_READ, (void *)arg, _IOC_SIZE(cmd)))
+    if (!EKVCL_access_ok(VERIFY_READ, (void *)arg, _IOC_SIZE(cmd)))
       return -EFAULT;
   }
   

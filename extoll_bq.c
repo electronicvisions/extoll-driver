@@ -498,12 +498,13 @@ int bq_destroy_queue(extoll_bq_t* queue)
     pr_debug("freeing descriptor queue\n");
     dma_free_coherent(&devp->dev,DCQ_SIZE,(void*) queue->virtual_address,(dma_addr_t) queue->physical_address);
     pr_debug("now freing %d segments\n",queue->no_of_entries);
-    for (i=0;i<queue->no_of_entries;i++)
-      destroy_bqd_struct(&(queue->descs[i]));	
-      kfree(queue->descs);
-      kfree(queue);
-      pr_debug("bq_destroy_queue done\n");
-      return 0;
+    for (i=0;i<queue->no_of_entries;i++) {
+      destroy_bqd_struct(&(queue->descs[i]));
+    }
+    kfree(queue->descs);
+    kfree(queue);
+    pr_debug("bq_destroy_queue done\n");
+    return 0;
 }
 EXPORT_SYMBOL(bq_destroy_queue);
 

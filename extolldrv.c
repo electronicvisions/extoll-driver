@@ -541,7 +541,7 @@ static void extoll_nw_state_info_tasks(int signo)
  list_for_each_entry(item, &card.nw_task_list, list) {
   if (item!=NULL) {
     if (item->task!=NULL) {
-     force_sig(signo,item->task);
+     send_sig(signo, item->task, 1);
      dev_dbg(DEV,"extoll_nw_state_info_tasks: Taskitem %p in list while traversing\n",item);
     }
     else {
@@ -894,9 +894,9 @@ EXPORT_SYMBOL(extoll_set_up_internal_address_map);
 static int extoll_set_up_ioremap(extoll_device_t* dev)
 {
   /* RF in BAR0 can be modified by user hardware and thus is not cacheable */
-  dev->rf_vaddr = ioremap_nocache(dev->rf_paddr,dev->rf_size);
+  dev->rf_vaddr = EKVCL_ioremap(dev->rf_paddr,dev->rf_size);
   if (!dev->rf_vaddr) {
-    dev_alert(DEV, "ioremap_nocache for RF in Bar0/1 failed \n");
+    dev_alert(DEV, "ioremap for RF in Bar0/1 failed \n");
     goto err_rf_map;
   }
   dev_dbg(DEV, "RF in BAR0/1 vaddr=%p\n", dev->velo2_vaddr);
@@ -911,7 +911,7 @@ static int extoll_set_up_ioremap(extoll_device_t* dev)
 
   /* RMA2 in Bar0/1 should be wc */
 #ifdef MICEXTOLL 
-  dev->rma2_vaddr = ioremap_nocache(dev->rma2_paddr,dev->rma2_size);
+  dev->rma2_vaddr = EKVCL_ioremap(dev->rma2_paddr,dev->rma2_size);
 #else
   dev->rma2_vaddr = ioremap_wc(dev->rma2_paddr,dev->rma2_size);
 #endif
@@ -922,10 +922,10 @@ static int extoll_set_up_ioremap(extoll_device_t* dev)
   dev_dbg(DEV, "RMA2 in BAR0/1 vaddr=%p\n", dev->rma2_vaddr);
   
    /* SMFU in Bar2/3 should be notcacheable for the moment */
-  //dev->smfu2_vaddr = ioremap_nocache(dev->smfu2_paddr,dev->smfu2_size);
+  //dev->smfu2_vaddr = EKVCL_ioremap(dev->smfu2_paddr,dev->smfu2_size);
   //dev->smfu2_vaddr = ioremap_wc(dev->smfu2_paddr,dev->smfu2_size);
   //if (!dev->smfu2_vaddr) {
-  //  printk(KERN_ALERT "EXTOLL: ioremap_nocache for SMFU2 in Bar0/1 failed \n");
+  //  printk(KERN_ALERT "EXTOLL: ioremap for SMFU2 in Bar0/1 failed \n");
   //  goto err_smfu2_map;
   //}
   //printk(KERN_INFO "EXTOLL: SMFU2 in BAR0/1 vaddr=%p\n",dev->smfu2_vaddr );
@@ -1547,7 +1547,7 @@ static int __extoll_devinit extoll_probe(struct pci_dev *devp, const struct pci_
   
   num_irqs=EKVCL_pci_msi_vec_count(devp);
   dev_info(DEV,"Card reports %d MSI vectors available\n",num_irqs);
-  num_irqs=pci_enable_msi_range(devp, 1, num_irqs);
+  num_irqs=EKVCL_pci_alloc_irq_vectors(devp, 1, num_irqs, PCI_IRQ_MSI);
   dev_info(DEV,"Kernel enabled %d MSIs\n",num_irqs);
   if (num_irqs<0) { //error_count
       dev_alert(DEV,"creating MSI interrupt failed: %d\n", num_irqs);

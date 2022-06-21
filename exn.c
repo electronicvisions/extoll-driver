@@ -188,8 +188,8 @@ static void exn_napi_rma_interrupt(int vpid, snq_entry_t*);
 
 static void exn_rx_rma_start(void); //TODO: better name for this function, describing what it actually does
 static void exn_regular_velo_tasklet(void);
-DECLARE_TASKLET(exn_rma_tasklet, (void *)&exn_rx_rma_start, 0);
-DECLARE_TASKLET(exn_velo_tasklet, (void *)&exn_regular_velo_tasklet, 0);
+EKVCL_DECLARE_TASKLET(exn_rma_tasklet, (void *)&exn_rx_rma_start);
+EKVCL_DECLARE_TASKLET(exn_velo_tasklet, (void *)&exn_regular_velo_tasklet);
 
 
 void exn_rma2_wcb_cb(struct kapi_wcb_info* info)

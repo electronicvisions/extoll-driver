@@ -6,7 +6,96 @@
 #include <linux/mm.h>
 #include <linux/pci.h>
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,9,0) && !defined RHEL_MAJOR) 
+
+static inline void EKVCL_mmap_read_lock(struct mm_struct *mm)
+{
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,8,0))
+        mmap_read_lock(mm);
+#else
+        up_read(&mm->mmap_sem);
+#endif
+}
+
+static inline void EKVCL_mmap_read_unlock(struct mm_struct *mm)
+{
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,8,0))
+        mmap_read_unlock(mm);
+#else
+        down_read(&mm->mmap_sem);
+#endif
+}
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,9,0))
+#define EKVCL_DECLARE_TASKLET(name, func) DECLARE_TASKLET_OLD(name, func)
+#else
+#define EKVCL_DECLARE_TASKLET(name, func) DECLARE_TASKLET(name, func, 0)
+#endif
+
+static inline int EKVCL_pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+		unsigned int max_vecs, unsigned int flags)
+{
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0))
+	return pci_alloc_irq_vectors(dev, min_vecs, max_vecs, flags);
+#else
+	return pci_enable_msi_range(dev, min_vecs, max_vecs);
+#endif
+}
+
+static inline void __iomem *EKVCL_ioremap(phys_addr_t offset, size_t size)
+{
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
+	return ioremap(offset, size);
+#else
+	return ioremap_nocache(offset, size);
+#endif
+}
+
+static inline void EKVCL_force_sig(int signo)
+{
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,3,0))
+	force_sig(signo);
+#else
+	force_sig(signo, current);
+#endif
+}
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,0,0))
+#define EKVCL_access_ok(type, addr, size) access_ok(addr, size)
+#else
+#define EKVCL_access_ok(type, addr, size) access_ok(type, addr, size)
+#endif
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
+#define EKVCL_siginfo kernel_siginfo
+#else
+#define EKVCL_siginfo siginfo
+#endif
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,8,0) && !defined RHEL_MAJOR)
+static inline long EKVCL_get_user_pages_remote(struct task_struct *tsk, struct mm_struct *mm,
+				unsigned long start, unsigned long nr_pages,
+				int write, int force, struct page **pages,
+				struct vm_area_struct **vmas)
+{
+	unsigned int gup_flags = 0;
+	if(write) gup_flags = gup_flags ^ FOLL_WRITE;
+	if(force) gup_flags = gup_flags ^ FOLL_FORCE;
+
+	return get_user_pages_remote(mm, start, nr_pages, gup_flags,  pages, vmas, NULL);
+}
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,16,0) && !defined RHEL_MAJOR)
+static inline long EKVCL_get_user_pages_remote(struct task_struct *tsk, struct mm_struct *mm,
+				unsigned long start, unsigned long nr_pages,
+				int write, int force, struct page **pages,
+				struct vm_area_struct **vmas)
+{
+	unsigned int gup_flags = 0;
+	if(write) gup_flags = gup_flags ^ FOLL_WRITE;
+	if(force) gup_flags = gup_flags ^ FOLL_FORCE;
+
+	return get_user_pages_remote(tsk, mm, start, nr_pages, gup_flags,  pages, vmas, NULL);
+}
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,9,0) && !defined RHEL_MAJOR)
 static inline long EKVCL_get_user_pages_remote(struct task_struct *tsk, struct mm_struct *mm, 
 				unsigned long start, unsigned long nr_pages, 
 				int write, int force, struct page **pages, 

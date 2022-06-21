@@ -198,7 +198,7 @@ void smfu_timeout_irq_handler(snq_entry_t* entry, int te, int entry_idx) {
 			list_for_each_safe(pos, q, &(pids)){
 				tmp = list_entry(pos, struct smfu2_process, list);
 				send_sig_info(SIGKILL,              //signal send to process
-				              (struct siginfo*) 1,  //1 means send signal as Kernel signal
+				              (struct EKVCL_siginfo*) 1,  //1 means send signal as Kernel signal
 				              tmp->task);    //Process descripton
 			}
 		}
@@ -435,7 +435,7 @@ void* smfu2_ioremap_nocache(smfu2_interval_t* interval) {
    dev_alert(DEV,"trying to iomap_nochache an interval which already has an assigned v_addr\n");
    return 0;
  }
- interval->v_addr=ioremap_nocache(interval->start,interval->size);
+ interval->v_addr=EKVCL_ioremap(interval->start,interval->size);
  if (!interval->v_addr) {
    dev_alert(DEV,"ioreampping of interval failed\n");
  }
@@ -648,12 +648,12 @@ static long smfu2_ioctl_unlocked( struct file *filp,
 
     // test provided argument buffer for necessary access rights
     if (_IOC_DIR(cmd) & _IOC_READ) {
-        if (!access_ok(VERIFY_WRITE, (void *)arg, _IOC_SIZE(cmd)))
+        if (!EKVCL_access_ok(VERIFY_WRITE, (void *)arg, _IOC_SIZE(cmd)))
             return -EFAULT;
     }
 
     if (_IOC_DIR(cmd) & _IOC_WRITE) {
-        if (!access_ok(VERIFY_READ, (void *)arg, _IOC_SIZE(cmd)))
+        if (!EKVCL_access_ok(VERIFY_READ, (void *)arg, _IOC_SIZE(cmd)))
             return -EFAULT;
     }   
 
