@@ -1,0 +1,83 @@
+#
+#  Linux Kernel Driver for the EXTOLL R2 Ventoux platform.
+#
+#  Copyright (C) 2013 
+#
+#  Written by Stephan Walter (2013)
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+VERSION=1.1b
+override ARCH := k1om
+override HOST := $(shell uname -m)
+PREFIX=/extoll2_knc
+PREFIX_COMMON=/var/mpss/common/extoll2_knc
+KAPI_DIR=$(PREFIX)/kapi
+KAPI_DIR_COMMON=$(PREFIX_COMMON)/kapi
+
+host_linux := /lib/modules/$(shell uname -r)/build
+mic_linux = /extoll2_knc/mpss-3.4.3/gpl/card/kernel
+
+archroot = linux-$(ARCH)-4.7
+archlibc = $(archroot)/linux-$(ARCH)
+archlgcc = $(archroot)/x86_64-$(ARCH)-linux
+CROSSBASE = /usr
+CROSSPATH = /usr/$(archroot)/bin
+export PATH := $(PATH):$(CROSSPATH)
+
+all: modules
+
+gen_stratix128:
+	./generate_sysfs_stratixV.sh
+	cp *.tcl ../script/tcl
+	cp extoll_rf_sysfs.c extoll_rf_sysfs_stratixV.c
+	cp extoll_rf_sysfs.h extoll_rf_sysfs_stratixV.h
+	cp ../../../hw/extoll_r2_targets/stratix5_128/register_file/xml_output/doc/snq_tdg.txt .
+	cp ../../../hw/extoll_r2_targets/stratix5_128/register_file/xml_output/doc/snq_te.txt .
+	../../../sw/building_blocks/snqc/snqc snq_te.txt snq_tdg.txt snq_extra.txt 32 0xc800 snq_pram_stratix128.h snq_decl_stratix128.h
+	rm -f snq_pram.h snq_decl.h
+	cp snq_tdg.txt snq_tdg_stratix128.txt
+	cp snq_te.txt snq_te_stratix128.txt
+	ln -s snq_pram_stratix128.h snq_pram.h 
+	ln -s snq_decl_stratix128.h snq_decl.h 
+
+modules:
+	$(MAKE) -C $(mic_linux) ARCH=$(ARCH) M=$(CURDIR) \
+        	        KERNELDIR=$(mic_linux) \
+                	modules
+
+install:
+	@echo "Installing Extoll2 Driver to $(PREFIX)"
+	install -d $(PREFIX)
+	install -d $(PREFIX)/include
+	install -d $(PREFIX)/sbin
+	install -d $(KAPI_DIR)
+	install *.ko $(PREFIX)/sbin
+	install *.sh $(PREFIX)/sbin
+	install  *.ko $(KAPI_DIR)
+	install  *.sh $(KAPI_DIR)
+	install arch_define.h velo2_ioctl.h velo2_mod.h rma2_region.h rma2_ioctl.h pmap.h smfu2_ioctl.h extolldrv.h $(PREFIX)/include
+	install extoll_env_mic.sh $(PREFIX)
+
+install_common:
+	@echo "Installing Extoll2 Driver to $(PREFIX_COMMON)"
+	install -d $(PREFIX_COMMON)
+	install -d $(PREFIX_COMMON)/include
+	install -d $(PREFIX_COMMON)/sbin
+	install -d $(KAPI_DIR_COMMON)
+	install *.ko $(PREFIX_COMMON)/sbin
+	install *.sh $(PREFIX_COMMON)/sbin
+	install  *.ko $(KAPI_DIR_COMMON)
+	install  *.sh $(KAPI_DIR_COMMON)
+	install arch_define.h velo2_ioctl.h velo2_mod.h rma2_region.h rma2_ioctl.h pmap.h smfu2_ioctl.h extolldrv.h $(PREFIX_COMMON)/include
+	install extoll_env_mic.sh $(PREFIX_COMMON)

@@ -1,0 +1,137 @@
+#
+#  Linux Kernel Driver for the EXTOLL R2 Ventoux platform.
+#
+#  Copyright (C) 2011 EXTOLL GmbH
+#
+#  Written by Mondrian Nuessle (2011)
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+VERSION=1.1b
+EXTOLL2_PATH=/extoll2
+INST_DIR=$(EXTOLL2_PATH)
+PREFIX=$(INST_DIR)
+KAPI_DIR=$(EXTOLL2_PATH)/kapi
+HOSTNAME=$(shell hostname)
+
+EXTRA_MODULES = Module.symvers
+DOXYGEN = doxygen
+DOXYFILE = doxyfile
+HEADFILES = extoll_kapi.h
+DOCDIR = doc
+
+# Enable Debugging
+ DEBUG=y
+
+ifeq ($(DEBUG),y)
+DBGFLAGS = -O -g -DDEBUG
+else
+DBGFLAGS = -O
+endif
+#EXTRA_CFLAGS += $(DBGFLAGS) -std=gnu99 -Wall
+#EXTRA_CFLAGS += -std=gnu99 -Wall
+
+
+#define object file for individual modules
+extoll-objs := extolldrv.o
+velo2-objs  := velo2drv.o
+extoll2_bq-objs := extoll_bq.o
+smfu2-objs := smfu2drv.o
+rma2-objs := rma2drv.o
+atu2-objs := atu2_drv.o
+exn-objs :=extoll2_net.o
+
+#pmap-objs := pmap.o
+#define modules
+
+#set-up kernel stuff
+KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+PWD       := $(shell pwd)
+
+all: modules
+
+extoll_rf_sysfs_ventoux64.c: ../../../hw/extoll_r2_targets/ventoux_64/register_file/xml_anot/extoll_rf.anot.xml
+	./generate_sysfs_ventoux64.sh
+	cp *.tcl ../script/tcl
+	cp extoll_rf_sysfs.c extoll_rf_sysfs_ventoux64.c
+
+extoll_rf_sysfs_galibier64.c: ../../../hw/extoll_r2_targets/galibier_64/register_file/xml_anot/extoll_rf.anot.xml
+	./generate_sysfs_galibier64.sh
+	cp *.tcl ../script/tcl
+	cp extoll_rf_sysfs.c extoll_rf_sysfs_galibier64.c
+
+extoll_rf_sysfs_galibier128.c: ../../../hw/extoll_r2_targets/galibier_128/register_file/xml_anot/extoll_rf.anot.xml
+	./generate_sysfs_galibier128.sh
+	cp *.tcl ../script/tcl
+	cp extoll_rf_sysfs.c extoll_rf_sysfs_galibier128.c
+
+snq_pram_ventoux64.h: ../../../hw/extoll_r2_targets/ventoux_64/register_file/xml_output/doc/snq_tdg.txt ../../../hw/extoll_r2_targets/ventoux_64/register_file/xml_output/doc/snq_te.txt snq_extra.txt
+	cp ../../../hw/extoll_r2_targets/ventoux_64/register_file/xml_output/doc/snq_tdg.txt .
+	cp ../../../hw/extoll_r2_targets/ventoux_64/register_file/xml_output/doc/snq_te.txt .
+	../../../sw/building_blocks/snqc/snqc snq_te.txt snq_tdg.txt snq_extra.txt 32 0xc800 snq_pram_ventoux64.h snq_decl_ventoux64.h
+	rm -f snq_pram.h snq_decl.h
+	ln -s snq_pram_ventoux64.h snq_pram.h 
+	ln -s snq_decl_ventoux64.h snq_decl.h 
+	
+snq_pram_galibier64.h: ../../../hw/extoll_r2_targets/galibier_64/register_file/xml_output/doc/snq_tdg.txt ../../../hw/extoll_r2_targets/galibier_64/register_file/xml_output/doc/snq_te.txt snq_extra.txt
+	cp ../../../hw/extoll_r2_targets/galibier_64/register_file/xml_output/doc/snq_tdg.txt .
+	cp ../../../hw/extoll_r2_targets/galibier_64/register_file/xml_output/doc/snq_te.txt .
+	../../../sw/building_blocks/snqc/snqc snq_te.txt snq_tdg.txt snq_extra.txt 32 0xc800 snq_pram_galibier64.h snq_decl_galibier64.h
+	rm -f snq_pram.h snq_decl.h
+	ln -s snq_pram_galibier64.h snq_pram.h 
+	ln -s snq_decl_gablibier64.h snq_decl.h 
+
+snq_pram_galibier128.h: ../../../hw/extoll_r2_targets/galibier_128/register_file/xml_output/doc/snq_tdg.txt ../../../hw/extoll_r2_targets/galibier_128/register_file/xml_output/doc/snq_te.txt snq_extra.txt
+	cp ../../../hw/extoll_r2_targets/galibier_128/register_file/xml_output/doc/snq_tdg.txt .
+	cp ../../../hw/extoll_r2_targets/galibier_128/register_file/xml_output/doc/snq_te.txt .
+	../../../sw/building_blocks/snqc/snqc snq_te.txt snq_tdg.txt snq_extra.txt 32 0xc800 snq_pram_galibier128.h snq_decl_galibier128.h
+	rm -f snq_pram.h snq_decl.h
+	ln -s snq_pram_galibier128.h snq_pram.h 
+	ln -s snq_decl_gablibier128.h snq_decl.h 
+
+
+#obj-m	:= extoll_bq.o velo2.o extoll.o extoll_rf_sysfs.o smfu2.o rma2.o pmap.o extoll_rf_access.o atu2.o exn.o extoll_kapi.o test_kapi.o
+#obj-m	:= extoll_bq.o velo2.o extoll.o extoll_rf_sysfs.o smfu2.o rma2.o pmap.o extoll_rf_access.o atu2.o extoll_kapi.o exn.o 
+#TODO: Add again smfu2 
+obj-m	:= micextoll.o extoll_bq.o velo2.o extoll.o extoll_rf_sysfs.o rma2.o pmap.o extoll_rf_access.o atu2.o extoll_kapi.o exn.o
+
+
+modules:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD)
+
+
+clean:
+	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .tmp_versions *.symvers .*o.d extoll_rf_sysfs_ventoux64.c extoll_rf_sysfs_galibier64.c extoll_rf_sysfs_galibier128.c snq_pram_ventoux64.h snq_pram_galibier64.h snq_pram_galibier128.h
+	
+
+
+install_kapi:
+	install *.ko $(KAPI_DIR)
+	install *.sh $(KAPI_DIR)
+
+install_root_folder:
+	./install_root_folder.sh
+
+install: modules
+	@echo "Installting Extoll2 Driver to $(PREFIX)"
+	install -d $(PREFIX)
+	install -d $(PREFIX)/include
+	install -d $(PREFIX)/sbin
+	install -d $(KAPI_DIR)
+	install *.ko $(PREFIX)/sbin
+	install *.sh $(PREFIX)/sbin
+	install  *.ko $(KAPI_DIR)
+	install  *.sh $(KAPI_DIR)
+	install velo2_ioctl.h velo2_mod.h rma2_region.h rma2_ioctl.h pmap.h smfu2_ioctl.h extolldrv.h $(PREFIX)/include
+	install extoll_env.bash $(PREFIX)
+

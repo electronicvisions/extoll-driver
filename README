@@ -1,0 +1,107 @@
+############################################################################################
+# To update driver after a sysfs (registerfile) modification or something, do following:
+#############################################################################################
+
+TODO: Add target specific handling for tcl scripts...
+
+### From your user account: (CAG_SVN points to NFS location !!)  ###################
+
+
+cd ${EXTOLL_SW}/extoll_r2/extoll2_drv/
+
+
+
+###### 1: Regenerate sysfs module and SNQ Trigger Support
+
+make gen_all
+
+IMPORTANT: If an error appears, that looks like the computer you are on cannot execute the driver generator,
+do this step from another node, it doesn't matter (it only generates files)
+
+This does depend on a complete svn checkout including the HW target folders.
+This will generate a copy of the sysfs driver for hw targets ventoux64, galibier64, galibier128 and stratix128.
+
+Normally you will not need to do this step and you can skip it and continue with step 2.
+
+You can also regenerate a specific target by calling make gen_ventoux64 or so.
+
+###### 2: Select target
+
+Next you will have to select your target
+
+make ventoux64
+or make galibier64 etc.
+
+This will "activate", i.e. copy and link the correct files for the target given.
+Everything should prepared for compilation now/
+
+
+###### 2: Compile Kernel module:
+
+make
+
+IF you have some errors concerning certain drivers, edit the Makefile file,
+and remove from the obj-m:: variable the .ko that are not needed
+
+Ex: if only working with registerfile and sysfs, only keep extoll.ko and extoll_rf_sysfs.ko
+
+
+##### 3: Copy the modules to a folder in root to be able to load the modules or install
+
+make install_root_folder
+
+This copies all .ko to /root/extoll_r2_driver/ , if this folder doesn't exist, create it before
+
+make install
+
+Installs the modules and scripts to /extoll2
+
+
+#### Pre-4: If module was already loaded
+su root
+cd /root/extoll_r2_driver/
+or
+cd /extoll2/sbin
+
+./extoll_unload.sh
+
+#### 4: Load the module as root: (valid if only using rfs_sysfs module)
+
+su root
+cd /root/extoll_r2_driver/
+or
+cd /extoll2/sbin
+
+./extoll_load.sh
+
+
+#################################################################
+### !!!! To use RFS script interface (like TCL one) !!! #########
+#################################################################
+
+# Mandatory
+cd ${EXTOLL_SW}/extoll_r2/
+source extoll_env.sh
+
+# Tcl script example:
+
+--------------------------------------------------------------
+#!/usr/bin/env tclsh
+
+
+## Load tcl methods
+source $::env(EXTOLL_R2_HOME/script/extollTclsh)
+
+## Show hardware version
+puts [Extoll getHardwareVersion]
+
+
+## Do some stuff with RFS
+## The methods are defined in ${EXTOLL_SW}/extoll_r2/extoll2_drv/extoll_rf.tcl
+## examnple: read_extoll_rf_info.....
+
+
+---------------------------------------------------------------
+
+
+

@@ -1,0 +1,523 @@
+#ifndef __SNQ_PROGRAM_H__
+#define __SNQ_PROGRAM_H__
+#include "snq_decl_galibier64.h"
+
+static uint64_t SNQ_program_table[] = {
+	0x30001e0400ff3, // (T0) 
+	0x1e1480203, // (T1) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0x3000204000ff3, // (T4) 
+	0xff4, // (T0) 
+	0x3000295000ff3, // (T6) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0x2c0800233, // (T9) 
+	0x20000000243, // (T10) 
+	0x210008002b3, // (T11) 
+	0x22000000323, // (T12) 
+	0x22800000413, // (T13) 
+	0x23000400443, // (T14) 
+	0x60000000473, // (T15) 
+	0x88000480483, // (T16) 
+	0x90001000493, // (T17) 
+	0xb0900c0a00ff3, // (T18) 
+	0xb00010004d3, // (T19) 
+	0xff4, // (T0) 
+	0xb0080c80513, // (T21) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0xff4, // (T0) 
+	0xf0001e2200213, // (T1) 
+	0x1e3580223, // (T1) 
+	0xd0001e4880ff3, // (T1) 
+	0x3000000000ff6, // (T9) 
+	0x20200000253, // (T10) 
+	0x20400000263, // (T10) 
+	0x20600000273, // (T10) 
+	0x20800000283, // (T10) 
+	0x20a00000293, // (T10) 
+	0xf020c000002a3, // (T10) 
+	0x3020e00000ff3, // (T10) 
+	0x210028002c3, // (T11) 
+	0x210048002d3, // (T11) 
+	0x210068002e3, // (T11) 
+	0x210088002f3, // (T11) 
+	0x2100a800303, // (T11) 
+	0xf02100c800313, // (T11) 
+	0x302100e800ff3, // (T11) 
+	0x22080000333, // (T12) 
+	0x22100000343, // (T12) 
+	0x22180000353, // (T12) 
+	0x22200000363, // (T12) 
+	0x22280000373, // (T12) 
+	0xf022300000383, // (T12) 
+	0x22380000393, // (T12) 
+	0x224000003a3, // (T12) 
+	0x224800003b3, // (T12) 
+	0x225000003c3, // (T12) 
+	0x225800003d3, // (T12) 
+	0x226000003e3, // (T12) 
+	0xf0226800003f3, // (T12) 
+	0x22700000403, // (T12) 
+	0x5022780000ff3, // (T12) 
+	0x22880000423, // (T13) 
+	0x22900000433, // (T13) 
+	0x9022980000ff3, // (T13) 
+	0x23004400453, // (T14) 
+	0x23008400463, // (T14) 
+	0x902300c400ff3, // (T14) 
+	0x5070000000ff3, // (T15) 
+	0x90a8000480ff3, // (T16) 
+	0x900014104a3, // (T17) 
+	0x900018204b3, // (T17) 
+	0x90001c304c3, // (T17) 
+	0x9000000000ff6, // (T17) 
+	0xb00014104e3, // (T19) 
+	0xb00018204f3, // (T19) 
+	0xb0001c30503, // (T19) 
+	0x9000000000ff6, // (T19) 
+	0xb0082100523, // (T21) 
+	0xf0b0083880533, // (T21) 
+	0x50b0084080ff3, // (T21) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x0, // (T0) 
+	0x1
+};
+
+static uint64_t SNQ_PC_table[] = {
+	SNQ_TRIG_VAL(0, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(4, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(6, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(18, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(1, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(1, 1),
+	SNQ_TRIG_VAL(9, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(10, 0),
+	SNQ_TRIG_VAL(10, 1),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(11, 0),
+	SNQ_TRIG_VAL(11, 1),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(12, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(12, 1),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(12, 2),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(13, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(14, 0),
+	SNQ_TRIG_VAL(15, 0),
+	SNQ_TRIG_VAL(16, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(17, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(19, 0),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_VAL(21, 0),
+	SNQ_TRIG_VAL(21, 1),
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX,
+	SNQ_TRIG_NUM_MAX
+};
+
+#endif // __SNQ_PROGRAM_H__

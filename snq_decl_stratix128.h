@@ -1,0 +1,44 @@
+#ifndef __SNQ_PROGRAM_DEFINES_H__
+#define __SNQ_PROGRAM_DEFINES_H__
+
+/* SNQ trigger enable defines */
+#define SNQ_TE_PCIE_BRIDGE_PCIE_TO_HTOC_REGFILE_INFO		0
+#define SNQ_TE_PCIE_BRIDGE_ERROR		1
+#define SNQ_TE_ECC_ERROR		2
+#define SNQ_TE_ECC_FATAL		3
+#define SNQ_TE_TIMER_INTERRUPT		4
+#define SNQ_TE_HTAX_BRIDGE_DISCARDED_INT		5
+#define SNQ_TE_HTAX_ASSERTION		6
+#define SNQ_TE_SMFU_MATCHING_STORE_EMPTY		7
+#define SNQ_TE_SMFU_TIMEOUT		8
+#define SNQ_TE_XBAR_INPORT		9
+#define SNQ_TE_XBAR_OUTPORT		10
+#define SNQ_TE_BARRIER_RELEASED		11
+#define SNQ_TE_BARRIER_GLOBAL_INTERRUPT		12
+#define SNQ_TE_LINK_PORT		13
+#define SNQ_TE_BQ_ERROR		14
+#define SNQ_TE_WCBUF_ERROR		15
+#define SNQ_TE_VELO_RF_NOTI_INTERRUPT_HANDLER_NOTI_INTERRUPT_VEC		16
+#define SNQ_TE_VELO_ERROR		17
+#define SNQ_TE_RMA_RF_NOTI_INTERRUPT_HANDLER_NOTI_INTERRUPT_VEC		18
+#define SNQ_TE_RMA_HISTORY_DUMP		19
+#define SNQ_TE_RMA_ERROR		20
+#define SNQ_TE_TE_21		21
+#define SNQ_TE_TE_22		22
+#define SNQ_TE_TE_23		23
+#define SNQ_TE_TE_24		24
+#define SNQ_TE_TE_25		25
+#define SNQ_TE_TE_26		26
+#define SNQ_TE_TE_27		27
+#define SNQ_TE_TE_28		28
+#define SNQ_TE_TE_29		29
+#define SNQ_TE_TE_30		30
+#define SNQ_TE_TE_31		31
+
+#define SNQ_TRIG_NUM_MAX 0x20
+#define SNQ_TRIG_VAL(te,entry) (te + entry*256)
+#define SNQ_TE(val) (val & 0xff)
+#define SNQ_ENTRY(val) (val / 256)
+
+
+#endif // __SNQ_PROGRAM_DEFINES_H__

@@ -1,0 +1,40 @@
+
+
+## Dist for Extoll2_drv
+
+include $(ODFI_MBUILD_HOME)/sw/makefile/Makefile.dist
+
+
+## This creates the tarball based on DIST_VERSION
+## @$(call dist-module-add ..) is equivalent to: cp whatever $(dist-module-work-dir)
+## It is only a utility that has some variations like $(call dist-module-add-bin ) that outputs to $(dist-module-work-dir)/bin
+dist:
+	$(dist-module-prepare-work)
+	./generate_sysfs.sh
+	@$(call dist-module-add,*.c)
+	@$(call dist-module-add,*.h)
+	@$(call dist-module-add,*.sh)
+	@$(call dist-module-add,*.bash)
+	@$(call dist-module-add,*.tcl)
+	@sed s/"all: extoll_rf_sysfs.c"/"all:"/ < Makefile > $(dist-module-work-dir)/Makefile.in
+	@sed s/"all: snq_pram.h"/"all:"/ < $(dist-module-work-dir)/Makefile.in > $(dist-module-work-dir)/Makefile
+	$(dist-module-package)
+
+KAPI_DIR=$(PREFIX)/kapi
+install:
+	make modules
+	@echo "Installting Extoll2 Driver to $(PREFIX)"
+	install -d $(PREFIX)
+	install -d $(PREFIX)/include
+	install -d $(PREFIX)/sbin
+	install -d $(KAPI_DIR)
+	install *.ko $(PREFIX)/sbin
+	install *.sh $(PREFIX)/sbin
+	install  *.ko $(KAPI_DIR)
+	install  *.sh $(KAPI_DIR)
+	install velo2_ioctl.h velo2_mod.h rma2_region.h rma2_ioctl.h pmap.h smfu2_ioctl.h extolldrv.h arch_define.h $(PREFIX)/include
+	install extoll_env.bash $(PREFIX)
+	install -d $(PREFIX)/script/tcl
+	@echo "Copy of RF TCL interface with right naming and place"
+	cp -v extoll_rf.tcl $(PREFIX)/lib/tcl8/8.5/extoll_rf-1.0.0.tm
+	
